@@ -1,13 +1,13 @@
 const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 
 const times = {
-  mon: { in: '', out: '' },
-  tue: { in: '', out: '' },
-  wed: { in: '', out: '' },
-  thu: { in: '', out: '' },
-  fri: { in: '', out: '' },
-  sat: { in: '', out: '' },
-  sun: { in: '', out: '' },
+  mon: { in: "", out: "" },
+  tue: { in: "", out: "" },
+  wed: { in: "", out: "" },
+  thu: { in: "", out: "" },
+  fri: { in: "", out: "" },
+  sat: { in: "", out: "" },
+  sun: { in: "", out: "" },
 };
 
 let buttonState = "Clock In";
@@ -27,30 +27,33 @@ function roundTo15Min(date) {
 function saveTimes() {
   localStorage.setItem("timesheet", JSON.stringify(times));
   localStorage.setItem("buttonState", buttonState);
-  localStorage.setItem('leaveDays', document.getElementById('leave-input').value);
+  localStorage.setItem(
+    "leaveDays",
+    document.getElementById("leave-input").value
+  );
 }
 
 function loadTimes() {
-  const saved = localStorage.getItem('timesheet');
+  const saved = localStorage.getItem("timesheet");
   if (saved) {
     Object.assign(times, JSON.parse(saved));
     // Handle old array format
     for (const day of days) {
       if (Array.isArray(times[day].in)) {
-        times[day].in = times[day].in[times[day].in.length - 1] || '';
+        times[day].in = times[day].in[times[day].in.length - 1] || "";
       }
       if (Array.isArray(times[day].out)) {
-        times[day].out = times[day].out[times[day].out.length - 1] || '';
+        times[day].out = times[day].out[times[day].out.length - 1] || "";
       }
     }
   }
-  const savedState = localStorage.getItem('buttonState');
+  const savedState = localStorage.getItem("buttonState");
   if (savedState) {
     buttonState = savedState;
   }
-  const savedLeave = localStorage.getItem('leaveDays');
+  const savedLeave = localStorage.getItem("leaveDays");
   if (savedLeave) {
-    document.getElementById('leave-input').value = savedLeave;
+    document.getElementById("leave-input").value = savedLeave;
   }
 }
 
@@ -90,7 +93,7 @@ function updateTable() {
 function updateTotal() {
   let total = 0;
   for (const day of days) {
-    if (times[day].out === 'Holiday') {
+    if (times[day].out === "Holiday") {
       total += 10;
     } else {
       const inTime = parseTime(times[day].in);
@@ -100,7 +103,9 @@ function updateTotal() {
       }
     }
   }
-  document.getElementById('weekly-total-cell').textContent = `Weekly Total: ${total.toFixed(2)} hours`;
+  document.getElementById(
+    "weekly-total-cell"
+  ).textContent = `Weekly Total: ${total.toFixed(2)} hours`;
 }
 
 function parseTime(str) {
@@ -114,11 +119,11 @@ function parseTime(str) {
 }
 
 // Add event listeners for time inputs
-document.querySelectorAll('.time-input').forEach(input => {
-  input.addEventListener('input', (e) => {
+document.querySelectorAll(".time-input").forEach((input) => {
+  input.addEventListener("input", (e) => {
     const id = e.target.id;
-    const day = id.split('-')[0];
-    const type = id.split('-')[1]; // in or out
+    const day = id.split("-")[0];
+    const type = id.split("-")[1]; // in or out
     times[day][type] = e.target.value;
     updateTotal();
     saveTimes();
@@ -134,8 +139,8 @@ button.textContent = buttonState;
 document.querySelectorAll(".holiday-btn").forEach((btn) => {
   btn.addEventListener("click", (e) => {
     const day = e.target.dataset.day;
-    times[day].in = 'On';
-    times[day].out = 'Holiday';
+    times[day].in = "On";
+    times[day].out = "Holiday";
     updateTable();
     saveTimes();
   });
@@ -143,17 +148,17 @@ document.querySelectorAll(".holiday-btn").forEach((btn) => {
 // Reset button
 document.getElementById("reset-btn").addEventListener("click", () => {
   for (const day of days) {
-    times[day].in = '';
-    times[day].out = '';
+    times[day].in = "";
+    times[day].out = "";
   }
   updateTable();
   saveTimes();
 });
 // Annual leave input
-document.getElementById('leave-input').addEventListener('input', saveTimes);
+document.getElementById("leave-input").addEventListener("input", saveTimes);
 
 // Reset leave button
-document.getElementById('reset-leave-btn').addEventListener('click', () => {
-  document.getElementById('leave-input').value = '0';
+document.getElementById("reset-leave-btn").addEventListener("click", () => {
+  document.getElementById("leave-input").value = "0";
   saveTimes();
 });
