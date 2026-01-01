@@ -24,3 +24,66 @@
   text-decoration: none;
   color: black;
 }
+
+/* Clock Section Styles */
+#clock-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0;
+}
+
+#clockButton {
+  background-color: darkgreen;
+  color: white;
+  font-size: 1.5em;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: background-color 0.3s;
+}
+
+#clockButton:hover {
+  background-color: #006400;
+}
+
+/* Timetable Styles */
+#timetable {
+  border-collapse: collapse;
+  width: 80%;
+  max-width: 600px;
+  margin-top: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#timetable th,
+#timetable td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: center;
+}
+
+#timetable th {
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
+}
+
+#timetable tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#timetable tr:hover {
+  background-color: #ddd;
+}
+
+#timetable td[contenteditable="true"] {
+  background-color: #fffbe6;
+  cursor: text;
+}
+
+#timetable td[contenteditable="true"]:focus {
+  outline: 2px solid #4caf50;
+}
