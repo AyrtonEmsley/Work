@@ -10,6 +10,8 @@ const times = {
   sun: { in: [], out: [] },
 };
 
+let buttonState = 'Clock In';
+
 function roundTo15Min(date) {
   const rounded = new Date(date);
   const minutes = rounded.getMinutes();
@@ -24,12 +26,17 @@ function roundTo15Min(date) {
 
 function saveTimes() {
   localStorage.setItem("timesheet", JSON.stringify(times));
+  localStorage.setItem('buttonState', buttonState);
 }
 
 function loadTimes() {
-  const saved = localStorage.getItem("timesheet");
+  const saved = localStorage.getItem('timesheet');
   if (saved) {
     Object.assign(times, JSON.parse(saved));
+  }
+  const savedState = localStorage.getItem('buttonState');
+  if (savedState) {
+    buttonState = savedState;
   }
 }
 
@@ -45,14 +52,15 @@ button.addEventListener("click", () => {
     minute: "2-digit",
   });
 
-  if (button.textContent === "Clock In") {
+  if (buttonState === "Clock In") {
     times[day].in.push(timeStr);
-    button.textContent = "Clock Out";
+    buttonState = "Clock Out";
   } else {
     times[day].out.push(timeStr);
-    button.textContent = "Clock In";
+    buttonState = "Clock In";
   }
 
+  button.textContent = buttonState;
   updateTable();
   saveTimes();
 });
@@ -90,3 +98,15 @@ days.forEach((day) => {
 // Load times on page load
 loadTimes();
 updateTable();
+button.textContent = buttonState;
+
+// Add event listeners for holiday buttons
+document.querySelectorAll(".holiday-btn").forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    const day = e.target.dataset.day;
+    times[day].in = ['On'];
+    times[day].out = ['Holiday'];
+    updateTable();
+    saveTimes();
+  });
+});

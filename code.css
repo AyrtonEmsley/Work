@@ -99,3 +99,17 @@ body {
 #timetable td[contenteditable="true"]:focus {
   outline: 2px solid #1976d2;
 }
+
+.holiday-btn {
+  background-color: #ff9800;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.holiday-btn:hover {
+  background-color: #e68900;
+}
