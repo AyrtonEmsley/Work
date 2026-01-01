@@ -27,16 +27,21 @@ function roundTo15Min(date) {
 function saveTimes() {
   localStorage.setItem("timesheet", JSON.stringify(times));
   localStorage.setItem("buttonState", buttonState);
+  localStorage.setItem('leaveDays', document.getElementById('leave-input').value);
 }
 
 function loadTimes() {
-  const saved = localStorage.getItem("timesheet");
+  const saved = localStorage.getItem('timesheet');
   if (saved) {
     Object.assign(times, JSON.parse(saved));
   }
-  const savedState = localStorage.getItem("buttonState");
+  const savedState = localStorage.getItem('buttonState');
   if (savedState) {
     buttonState = savedState;
+  }
+  const savedLeave = localStorage.getItem('leaveDays');
+  if (savedLeave) {
+    document.getElementById('leave-input').value = savedLeave;
   }
 }
 
@@ -91,7 +96,9 @@ function updateTotal() {
       }
     }
   }
-  document.getElementById('weekly-total-cell').textContent = `Weekly Total: ${total.toFixed(2)} hours`;
+  document.getElementById(
+    "weekly-total-cell"
+  ).textContent = `Weekly Total: ${total.toFixed(2)} hours`;
 }
 
 function parseTime(str) {
@@ -142,7 +149,7 @@ document.querySelectorAll(".holiday-btn").forEach((btn) => {
   });
 });
 // Reset button
-document.getElementById('reset-btn').addEventListener('click', () => {
+document.getElementById("reset-btn").addEventListener("click", () => {
   for (const day of days) {
     times[day].in = [];
     times[day].out = [];
@@ -150,3 +157,5 @@ document.getElementById('reset-btn').addEventListener('click', () => {
   updateTable();
   saveTimes();
 });
+// Annual leave input
+document.getElementById('leave-input').addEventListener('input', saveTimes);
