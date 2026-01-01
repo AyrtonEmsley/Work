@@ -1,13 +1,13 @@
 const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 
 const times = {
-  mon: { in: [], out: [] },
-  tue: { in: [], out: [] },
-  wed: { in: [], out: [] },
-  thu: { in: [], out: [] },
-  fri: { in: [], out: [] },
-  sat: { in: [], out: [] },
-  sun: { in: [], out: [] },
+  mon: { in: '', out: '' },
+  tue: { in: '', out: '' },
+  wed: { in: '', out: '' },
+  thu: { in: '', out: '' },
+  fri: { in: '', out: '' },
+  sat: { in: '', out: '' },
+  sun: { in: '', out: '' },
 };
 
 let buttonState = "Clock In";
@@ -58,10 +58,10 @@ button.addEventListener("click", () => {
   });
 
   if (buttonState === "Clock In") {
-    times[day].in.push(timeStr);
+    times[day].in = timeStr;
     buttonState = "Clock Out";
   } else {
-    times[day].out.push(timeStr);
+    times[day].out = timeStr;
     buttonState = "Clock In";
   }
 
@@ -72,9 +72,8 @@ button.addEventListener("click", () => {
 
 function updateTable() {
   for (const day of days) {
-    document.getElementById(`${day}-in`).textContent = times[day].in.join(", ");
-    document.getElementById(`${day}-out`).textContent =
-      times[day].out.join(", ");
+    document.getElementById(`${day}-in-input`).value = times[day].in;
+    document.getElementById(`${day}-out-input`).value = times[day].out;
   }
   updateTotal();
 }
@@ -82,23 +81,17 @@ function updateTable() {
 function updateTotal() {
   let total = 0;
   for (const day of days) {
-    const ins = times[day].in;
-    const outs = times[day].out;
-    for (let i = 0; i < Math.min(ins.length, outs.length); i++) {
-      if (outs[i] === "Holiday") {
-        total += 10;
-      } else {
-        const inTime = parseTime(ins[i]);
-        const outTime = parseTime(outs[i]);
-        if (inTime && outTime && outTime > inTime) {
-          total += (outTime - inTime) / (1000 * 60 * 60);
-        }
+    if (times[day].out === 'Holiday') {
+      total += 10;
+    } else {
+      const inTime = parseTime(times[day].in);
+      const outTime = parseTime(times[day].out);
+      if (inTime && outTime && outTime > inTime) {
+        total += (outTime - inTime) / (1000 * 60 * 60);
       }
     }
   }
-  document.getElementById(
-    "weekly-total-cell"
-  ).textContent = `Weekly Total: ${total.toFixed(2)} hours`;
+  document.getElementById('weekly-total-cell').textContent = `Weekly Total: ${total.toFixed(2)} hours`;
 }
 
 function parseTime(str) {
@@ -111,24 +104,14 @@ function parseTime(str) {
   return new Date(0, 0, 0, h, m);
 }
 
-// Add event listeners for editable cells
-days.forEach((day) => {
-  const inCell = document.getElementById(`${day}-in`);
-  const outCell = document.getElementById(`${day}-out`);
-
-  inCell.addEventListener("input", () => {
-    times[day].in = inCell.textContent
-      .split(",")
-      .map((s) => s.trim())
-      .filter((s) => s);
-    saveTimes();
-  });
-
-  outCell.addEventListener("input", () => {
-    times[day].out = outCell.textContent
-      .split(",")
-      .map((s) => s.trim())
-      .filter((s) => s);
+// Add event listeners for time inputs
+document.querySelectorAll('.time-input').forEach(input => {
+  input.addEventListener('input', (e) => {
+    const id = e.target.id;
+    const day = id.split('-')[0];
+    const type = id.split('-')[1]; // in or out
+    times[day][type] = e.target.value;
+    updateTotal();
     saveTimes();
   });
 });
@@ -142,8 +125,8 @@ button.textContent = buttonState;
 document.querySelectorAll(".holiday-btn").forEach((btn) => {
   btn.addEventListener("click", (e) => {
     const day = e.target.dataset.day;
-    times[day].in = ["On"];
-    times[day].out = ["Holiday"];
+    times[day].in = 'On';
+    times[day].out = 'Holiday';
     updateTable();
     saveTimes();
   });
@@ -151,8 +134,8 @@ document.querySelectorAll(".holiday-btn").forEach((btn) => {
 // Reset button
 document.getElementById("reset-btn").addEventListener("click", () => {
   for (const day of days) {
-    times[day].in = [];
-    times[day].out = [];
+    times[day].in = '';
+    times[day].out = '';
   }
   updateTable();
   saveTimes();

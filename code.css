@@ -134,7 +134,17 @@ body {
 #timetable td[contenteditable="true"]:focus {
   outline: 2px solid #1976d2;
 }
+.time-input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  text-align: center;
+  font-size: 14px;
+}
 
+.time-input:focus {
+  outline: 2px solid #1976d2;
+}
 .holiday-btn {
   background-color: #1976d2;
   color: white;
