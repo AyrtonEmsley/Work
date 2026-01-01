@@ -119,7 +119,12 @@ body {
 }
 
 #timetable td:first-child {
-  text-align: left;
+  text-align: center;
+}
+
+.day-name {
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 
 #timetable th {

@@ -84,8 +84,19 @@ button.addEventListener("click", () => {
 
 function updateTable() {
   for (const day of days) {
-    document.getElementById(`${day}-in-input`).value = times[day].in;
-    document.getElementById(`${day}-out-input`).value = times[day].out;
+    const inInput = document.getElementById(`${day}-in-input`);
+    const outInput = document.getElementById(`${day}-out-input`);
+    if (times[day].in === 'On' && times[day].out === 'Holiday') {
+      inInput.type = 'text';
+      inInput.value = 'On';
+      outInput.type = 'text';
+      outInput.value = 'Holiday';
+    } else {
+      inInput.type = 'time';
+      inInput.value = times[day].in;
+      outInput.type = 'time';
+      outInput.value = times[day].out;
+    }
   }
   updateTotal();
 }
