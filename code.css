@@ -63,6 +63,21 @@ body {
   text-align: center;
 }
 
+#reset-leave-btn {
+  background-color: #d32f2f;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 12px;
+  margin-left: 5px;
+}
+
+#reset-leave-btn:hover {
+  background-color: #b71c1c;
+}
+
 #clockButton {
   background-color: #1976d2;
   color: white;

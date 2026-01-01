@@ -159,3 +159,9 @@ document.getElementById("reset-btn").addEventListener("click", () => {
 });
 // Annual leave input
 document.getElementById('leave-input').addEventListener('input', saveTimes);
+
+// Reset leave button
+document.getElementById('reset-leave-btn').addEventListener('click', () => {
+  document.getElementById('leave-input').value = '0';
+  saveTimes();
+});
