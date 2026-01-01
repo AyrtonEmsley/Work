@@ -34,6 +34,15 @@ function loadTimes() {
   const saved = localStorage.getItem('timesheet');
   if (saved) {
     Object.assign(times, JSON.parse(saved));
+    // Handle old array format
+    for (const day of days) {
+      if (Array.isArray(times[day].in)) {
+        times[day].in = times[day].in[times[day].in.length - 1] || '';
+      }
+      if (Array.isArray(times[day].out)) {
+        times[day].out = times[day].out[times[day].out.length - 1] || '';
+      }
+    }
   }
   const savedState = localStorage.getItem('buttonState');
   if (savedState) {
