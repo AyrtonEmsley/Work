@@ -80,7 +80,7 @@ function updateTotal() {
     const ins = times[day].in;
     const outs = times[day].out;
     for (let i = 0; i < Math.min(ins.length, outs.length); i++) {
-      if (outs[i] === 'Holiday') {
+      if (outs[i] === "Holiday") {
         total += 10;
       } else {
         const inTime = parseTime(ins[i]);
@@ -91,12 +91,12 @@ function updateTotal() {
       }
     }
   }
-  document.getElementById('weekly-total').textContent = `Weekly Total: ${total.toFixed(2)} hours`;
+  document.getElementById('weekly-total-cell').textContent = `Weekly Total: ${total.toFixed(2)} hours`;
 }
 
 function parseTime(str) {
-  if (!str || str === 'Holiday') return null;
-  const parts = str.split(':');
+  if (!str || str === "Holiday") return null;
+  const parts = str.split(":");
   if (parts.length !== 2) return null;
   const h = parseInt(parts[0], 10);
   const m = parseInt(parts[1], 10);
@@ -140,4 +140,13 @@ document.querySelectorAll(".holiday-btn").forEach((btn) => {
     updateTable();
     saveTimes();
   });
+});
+// Reset button
+document.getElementById('reset-btn').addEventListener('click', () => {
+  for (const day of days) {
+    times[day].in = [];
+    times[day].out = [];
+  }
+  updateTable();
+  saveTimes();
 });

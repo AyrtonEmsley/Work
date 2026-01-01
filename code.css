@@ -45,7 +45,7 @@ body {
 }
 
 #clockButton {
-  background-color: darkgreen;
+  background-color: #1976d2;
   color: white;
   font-size: 24px;
   padding: 20px 40px;
@@ -57,7 +57,7 @@ body {
 }
 
 #clockButton:hover {
-  background-color: #006400;
+  background-color: #0d47a1;
 }
 
 /* Timetable Styles */
@@ -115,10 +115,22 @@ body {
   background-color: #002171;
 }
 
-#weekly-total {
-  margin-top: 20px;
-  font-size: 18px;
+#reset-btn {
+  background-color: #d32f2f;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+#reset-btn:hover {
+  background-color: #b71c1c;
+}
+
+#weekly-total-cell {
   font-weight: bold;
   text-align: center;
-  color: #1976d2;
+  background-color: #e3f2fd;
 }
