@@ -10,7 +10,7 @@ const times = {
   sun: { in: [], out: [] },
 };
 
-let buttonState = 'Clock In';
+let buttonState = "Clock In";
 
 function roundTo15Min(date) {
   const rounded = new Date(date);
@@ -26,15 +26,15 @@ function roundTo15Min(date) {
 
 function saveTimes() {
   localStorage.setItem("timesheet", JSON.stringify(times));
-  localStorage.setItem('buttonState', buttonState);
+  localStorage.setItem("buttonState", buttonState);
 }
 
 function loadTimes() {
-  const saved = localStorage.getItem('timesheet');
+  const saved = localStorage.getItem("timesheet");
   if (saved) {
     Object.assign(times, JSON.parse(saved));
   }
-  const savedState = localStorage.getItem('buttonState');
+  const savedState = localStorage.getItem("buttonState");
   if (savedState) {
     buttonState = savedState;
   }
@@ -71,6 +71,37 @@ function updateTable() {
     document.getElementById(`${day}-out`).textContent =
       times[day].out.join(", ");
   }
+  updateTotal();
+}
+
+function updateTotal() {
+  let total = 0;
+  for (const day of days) {
+    const ins = times[day].in;
+    const outs = times[day].out;
+    for (let i = 0; i < Math.min(ins.length, outs.length); i++) {
+      if (outs[i] === 'Holiday') {
+        total += 10;
+      } else {
+        const inTime = parseTime(ins[i]);
+        const outTime = parseTime(outs[i]);
+        if (inTime && outTime && outTime > inTime) {
+          total += (outTime - inTime) / (1000 * 60 * 60);
+        }
+      }
+    }
+  }
+  document.getElementById('weekly-total').textContent = `Weekly Total: ${total.toFixed(2)} hours`;
+}
+
+function parseTime(str) {
+  if (!str || str === 'Holiday') return null;
+  const parts = str.split(':');
+  if (parts.length !== 2) return null;
+  const h = parseInt(parts[0], 10);
+  const m = parseInt(parts[1], 10);
+  if (isNaN(h) || isNaN(m)) return null;
+  return new Date(0, 0, 0, h, m);
 }
 
 // Add event listeners for editable cells
@@ -104,8 +135,8 @@ button.textContent = buttonState;
 document.querySelectorAll(".holiday-btn").forEach((btn) => {
   btn.addEventListener("click", (e) => {
     const day = e.target.dataset.day;
-    times[day].in = ['On'];
-    times[day].out = ['Holiday'];
+    times[day].in = ["On"];
+    times[day].out = ["Holiday"];
     updateTable();
     saveTimes();
   });

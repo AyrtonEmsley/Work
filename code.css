@@ -101,15 +101,24 @@ body {
 }
 
 .holiday-btn {
-  background-color: #ff9800;
+  background-color: #0d47a1;
   color: white;
   border: none;
-  padding: 5px 10px;
+  padding: 4px 8px;
   border-radius: 3px;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 11px;
+  margin-left: 5px;
 }
 
 .holiday-btn:hover {
-  background-color: #e68900;
+  background-color: #002171;
+}
+
+#weekly-total {
+  margin-top: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  color: #1976d2;
 }
